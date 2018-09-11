@@ -1,0 +1,20 @@
+
+4.times{
+		counter->task "task$counter" << {
+		println "I'm task number $counter"
+		}
+		}
+		
+
+task hello << {
+        println 'Hello world!'
+}
+hello.doFirst{
+        println 'Hello Venus'
+}
+hello.doLast{
+        println 'Hello Mars'
+}
+hello << {
+        println 'Hello Jupiter'
+}
