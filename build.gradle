@@ -1,1 +1,31 @@
 apply plugin: 'java'
+
+def la_version = "2.1.0"
+if (System.getenv("LA_VERSION") != null) {
+    la_version = System.getenv("LA_VERSION")
+}
+
+def build_number = "366"
+if (System.getenv("BUILD_NUMBER") != null) {
+    build_number = System.getenv("BUILD_NUMBER")
+}
+
+def releaseTime() {
+  return new Date().format("yyyyMMdd")
+}
+
+allprojects {
+    group = "com.allsenseww.service"
+    version = "${la_version}"+".${releaseTime()}"+".${build_number}"
+    apply plugin: "idea"
+    ext {
+        dp_common_version = "2.1.0-SNAPSHOT"
+    }
+}
+
+task dist(type: Zip) {
+    from(new File(rootProject.buildDir, "libs"))
+    include "*/**"
+    archiveName project.name + "-${la_version}"+".${releaseTime()}"+".${build_number}" + ".zip"
+    destinationDir(new File(rootProject.projectDir, "dist"))
+}
